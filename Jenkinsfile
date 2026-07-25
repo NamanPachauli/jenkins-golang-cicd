@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-         IMAGE_NAME = "golang-cicd-demo"
+        IMAGE_NAME = "golang-cicd-demo"
     }
 
     stages {
@@ -15,10 +15,17 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker run --rm $IMAGE_NAME'
+                bat 'docker build -t %IMAGE_NAME% .'
             }
         }
-    } 
+
+        stage('Run Container') {
+            steps {
+                bat 'docker run --rm %IMAGE_NAME%'
+            }
+        }
+
+    }
 
     post {
         success {
